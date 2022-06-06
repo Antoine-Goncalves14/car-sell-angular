@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit {
 
   initOfferForm(): void {
     this.offerForm = this.formBuilder.group({
-      title: ['', Validators.required],
+      title: ['', Validators.required, Validators.maxLength(100)],
       brand: ['', Validators.required],
       model: ['', Validators.required],
       description: '',

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Offer } from 'src/app/interfaces/offer';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,11 +11,13 @@ export class DashboardComponent implements OnInit {
 
   offerForm!: FormGroup;
 
-  offers: any[] = [];
+  offers: Offer[] = [];
 
   constructor(
     private formBuilder: FormBuilder
-  ) { }
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.initOfferForm();
@@ -46,7 +49,7 @@ export class DashboardComponent implements OnInit {
     this.offerForm.reset();
   }
 
-  onEditOffer(offer: any, index: number): void {
+  onEditOffer(offer: Offer, index: number): void {
     this.offerForm.setValue({...offer, index});
   }
 

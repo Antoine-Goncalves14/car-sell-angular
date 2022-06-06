@@ -1,4 +1,7 @@
 <app-header></app-header>
 
-<button class="btn btn-primary" type="button" (click)="onClickButton()">Toggle</button>
-<p *ngIf="displayText">{{ text }}</p>
+<ul>
+  <li *ngFor="let car of cars">
+    <p [id]="car.id">{{ car.brand }} {{ car.model }} - {{ car.color }}</p>
+  </li>
+</ul>

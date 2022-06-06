@@ -7,10 +7,24 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  displayText = false;
-  text = 'Hello World!';
-
-  onClickButton(): void {
-    this.displayText = this.displayText ? false : true;
-  }
+  cars = [
+    {
+      id: 0,
+      brand: 'Renault',
+      model: 'Laguna',
+      color: 'gray',
+    },
+    {
+      id: 1,
+      brand: 'Peugeot',
+      model: '508',
+      color: 'red',
+    },
+    {
+      id: 2,
+      brand: 'Opel',
+      model: 'Corsa',
+      color: 'blue',
+    },
+  ];
 }

@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
+  displayText = false;
   text = 'Hello World!';
 
+  onClickButton(): void {
+    this.displayText = this.displayText ? false : true;
+  }
 }

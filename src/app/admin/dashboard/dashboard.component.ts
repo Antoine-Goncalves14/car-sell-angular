@@ -50,4 +50,8 @@ export class DashboardComponent implements OnInit {
     this.offerForm.setValue({...offer, index});
   }
 
+  onDeleteOffer(index: number): void {
+    this.offers.splice(index, 1);
+  }
+
 }

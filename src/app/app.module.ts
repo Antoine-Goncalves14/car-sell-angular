@@ -9,6 +9,7 @@ import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { registerLocaleData } from '@angular/common';
 import localFr from '@angular/common/locales/fr';
+import { FirstCharUppercasePipe } from './pipes/first-char-uppercase.pipe';
 
 registerLocaleData(localFr);
 
@@ -17,7 +18,8 @@ registerLocaleData(localFr);
     AppComponent,
     HeaderComponent,
     DashboardComponent,
-    HomeComponent
+    HomeComponent,
+    FirstCharUppercasePipe
   ],
   imports: [
     BrowserModule,

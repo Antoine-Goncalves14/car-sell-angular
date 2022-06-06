@@ -52,7 +52,7 @@
           <tbody>
             <tr *ngFor="let offer of offers; let i = index">
               <th>{{ i }}</th>
-              <td>{{ offer.title }}</td>
+              <td>{{ offer.title | firstCharUppercase }}</td>
               <td>{{ offer.brand + ' ' + offer.model }}</td>
               <td>{{ offer.price | currency: 'EUR':'symbol': '4.2-2':'fr' }}</td>
               <td>

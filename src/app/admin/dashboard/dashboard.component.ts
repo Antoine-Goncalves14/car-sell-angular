@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,36 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  cars = [
+    {
+      id: 0,
+      brand: 'Renault',
+      model: 'Laguna',
+      color: 'gray',
+    },
+    {
+      id: 1,
+      brand: 'Peugeot',
+      model: '508',
+      color: 'red',
+    },
+    {
+      id: 2,
+      brand: 'Opel',
+      model: 'Corsa',
+      color: 'blue',
+    },
+  ];
+
+  currentCar: any;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    const carId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.currentCar = this.cars.find(car => car.id === +String(carId));
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Offer } from 'src/app/interfaces/offer';
+import { OffersService } from 'src/app/services/offers.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,13 +15,15 @@ export class DashboardComponent implements OnInit {
   offers: Offer[] = [];
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private offersService: OffersService,
   ) {
 
   }
 
   ngOnInit(): void {
     this.initOfferForm();
+    this.offers = this.offersService.getOffers();
   }
 
   initOfferForm(): void {
@@ -40,10 +43,10 @@ export class DashboardComponent implements OnInit {
 
     if (offerIndex === null || offerIndex === undefined) {
       delete offer.index;
-      this.offers.push(offer);
+      this.offers = this.offersService.createOffer(offer);
     } else {
       delete offer.index;
-      this.offers[offerIndex] = offer;
+      this.offers = this.offersService.editOffer(offer, offerIndex);
     }
 
     this.offerForm.reset();
@@ -54,7 +57,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onDeleteOffer(index: number): void {
-    this.offers.splice(index, 1);
+    this.offers = this.offersService.deleteOffer(index);
   }
 
 }

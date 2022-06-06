@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,11 +43,11 @@ export class DashboardComponent implements OnInit {
 
   initOfferForm(): void {
     this.offerForm = this.formBuilder.group({
-      title: '',
-      brand: '',
-      model: '',
+      title: ['', Validators.required],
+      brand: ['', Validators.required],
+      model: ['', Validators.required],
       description: '',
-      price: 0,
+      price: [0, Validators.required],
     });
   }
 

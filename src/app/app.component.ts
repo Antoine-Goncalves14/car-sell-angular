@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  paragrapheId = 0;
+  text = '';
+
+  onClickButton(): void {
+    this.text = 'Hello World !';
+  }
+
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { Offer } from 'src/app/interfaces/offer';
 import { OffersService } from 'src/app/services/offers.service';
 
@@ -8,11 +9,13 @@ import { OffersService } from 'src/app/services/offers.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   offerForm!: FormGroup;
 
   offers: Offer[] = [];
+
+  subscription!: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,7 +26,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.initOfferForm();
-    this.offersService.getOffers().subscribe({
+    this.subscription = this.offersService.getOffers().subscribe({
       next: (offers: Offer[]) => {
         this.offers = offers;
       },
@@ -33,7 +36,7 @@ export class DashboardComponent implements OnInit {
       error: (error) => {
         console.log(error);
       }
-    })
+    });
   }
 
   initOfferForm(): void {
@@ -68,6 +71,10 @@ export class DashboardComponent implements OnInit {
 
   onDeleteOffer(index: number): void {
     this.offers = this.offersService.deleteOffer(index);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
 }

@@ -18,8 +18,15 @@ export class OffersService {
 
   constructor() { }
 
-  getOffers(): Offer[] {
-    return this.offers;
+  getOffers(): Promise<Offer[]> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (this.offers.length === 0) {
+          reject(new Error('No offer registered'));
+        }
+        resolve(this.offers);
+      }, 3000);
+    });
   }
 
   createOffer(offer: Offer): Offer[] {

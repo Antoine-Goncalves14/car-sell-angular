@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Offer } from '../interfaces/offer';
 
 @Injectable({
@@ -18,15 +19,16 @@ export class OffersService {
 
   constructor() { }
 
-  getOffers(): Promise<Offer[]> {
-    return new Promise((resolve, reject) => {
+  getOffers(): Observable<Offer[]> {
+    return new Observable(observer => {
+      if (this.offers.length === 0) {
+        observer.error(new Error('No offer registered'));
+      }
       setTimeout(() => {
-        if (this.offers.length === 0) {
-          reject(new Error('No offer registered'));
-        }
-        resolve(this.offers);
-      }, 3000);
-    });
+        observer.next(this.offers);
+        //observer.complete();
+      }, 2000);
+    })
   }
 
   createOffer(offer: Offer): Offer[] {

@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '../pipes/pipes.module';
 import { DirectivesModule } from '../directives/directives.module';
+import { AdminRoutingModule } from './admin-routing.module';
 
 
 
@@ -13,6 +14,7 @@ import { DirectivesModule } from '../directives/directives.module';
   ],
   imports: [
     CommonModule,
+    AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     PipesModule,

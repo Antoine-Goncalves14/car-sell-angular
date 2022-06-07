@@ -26,17 +26,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initOfferForm();
-    this.subscription = this.offersService.getOffers().subscribe({
+    this.subscription = this.offersService.offerSubject.subscribe({
       next: (offers: Offer[]) => {
+        console.log('NEXT');
+
         this.offers = offers;
-      },
-      complete: () => {
-        console.log('Obersable complete');
       },
       error: (error) => {
         console.log(error);
       }
     });
+    this.offersService.dispatchOffers();
   }
 
   initOfferForm(): void {

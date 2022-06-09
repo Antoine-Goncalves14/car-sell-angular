@@ -12,6 +12,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from 'src/environments/environment';
 
 registerLocaleData(localFr);
@@ -31,6 +32,7 @@ registerLocaleData(localFr);
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
   ],
   providers: [
     {

@@ -28,6 +28,17 @@ export class OffersService {
     });
   }
 
+  // Modification en temps réel
+  /*getOffersOn(): void {
+    this.db.list('offers').query.limitToLast(10).on('value', (snapshot) => {
+      const offersSnapshotValue = snapshot.val();
+      const offers = Object.keys(offersSnapshotValue).map(id => ({
+        id,
+        ...offersSnapshotValue[id]
+      }));
+    });
+  }*/
+
   dispatchOffers() {
     this.offerSubject.next(this.offers);
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Offer } from '../interfaces/offer';
 
 @Injectable({
@@ -55,9 +55,19 @@ export class OffersService {
     })
   }
 
-  editOffer(offer: Offer, index: number): Offer[] {
-    this.offers[index] = offer;
-    return this.offers;
+  editOffer(offer: Offer, offerId: string): Promise<Offer> {
+    return new Promise((resolve, reject) => {
+      this.db.list('offers').update(offerId, offer)
+        .then(() => {
+          const updatedOffer = { ...offer, id: offerId };
+          const offerToUpdateIndex = this.offers.findIndex(el => el.id === offerId);
+          this.offers[offerToUpdateIndex] = updatedOffer;
+
+          this.dispatchOffers();
+
+          resolve({ ...offer, id: offerId});
+        }).catch(reject);
+    });
   }
 
   deleteOffer(offerIndex: number): Offer[] {

@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   initOfferForm(): void {
     this.offerForm = this.formBuilder.group({
-      index: [null],
+      id: [null],
       title: ['', [Validators.required, Validators.maxLength(100)]],
       brand: ['', [Validators.required]],
       model: ['', [Validators.required]],
@@ -51,24 +51,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onSubmitOfferForm(): void {
-    const offerIndex = this.offerForm.value.index;
+    const offerId = this.offerForm.value.id;
     let offer = this.offerForm.value;
 
-    if (offerIndex === null || offerIndex === undefined) {
+    if (offerId === null || offerId === undefined) {
       // Creation
       delete offer.index;
       this.offersService.createOffer(offer).catch(console.error);
     } else {
       // Modification
       delete offer.index;
-      this.offers = this.offersService.editOffer(offer, offerIndex);
+      this.offersService.editOffer(offer, offerId).catch(console.error);
     }
 
     this.offerForm.reset();
   }
 
-  onEditOffer(offer: Offer, index: number): void {
-    this.offerForm.setValue({...offer, index});
+  onEditOffer(offer: Offer): void {
+    this.offerForm.setValue(offer);
   }
 
   onDeleteOffer(index: number): void {

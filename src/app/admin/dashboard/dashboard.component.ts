@@ -77,8 +77,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDeleteOffer(index: number): void {
-    this.offers = this.offersService.deleteOffer(index);
+  onDeleteOffer(offerId: string | undefined): void {
+    if (offerId) {
+      this.offersService.deleteOffer(offerId);
+    } else {
+      console.error('An id must be provided to delete an offer');
+    }
   }
 
   ngOnDestroy(): void {

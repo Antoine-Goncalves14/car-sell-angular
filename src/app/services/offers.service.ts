@@ -19,12 +19,14 @@ export class OffersService {
   getOffers(): void {
     this.db.list('offers').query.limitToLast(10).once('value', snapshot => {
       const offersSnapshotValue = snapshot.val();
-      const offers = Object.keys(offersSnapshotValue).map(id => ({
-        id,
-        ...offersSnapshotValue[id]
-      }));
-      this.offers = offers;
-      this.dispatchOffers();
+      if (offersSnapshotValue) {
+        const offers = Object.keys(offersSnapshotValue).map(id => ({
+          id,
+          ...offersSnapshotValue[id]
+        }));
+        this.offers = offers;
+        this.dispatchOffers();
+      }
     });
   }
 
@@ -70,8 +72,15 @@ export class OffersService {
     });
   }
 
-  deleteOffer(offerIndex: number): Offer[] {
-    this.offers.splice(offerIndex, 1);
-    return this.offers;
+  deleteOffer(offerId: string): Promise<Offer[]> {
+    return new Promise((resolve, reject) => {
+      this.db.list('offers').remove(offerId)
+        .then(() => {
+          const offerToDeleteIndex = this.offers.findIndex(el => el.id === offerId);
+          this.offers.splice(offerToDeleteIndex, 1);
+
+          this.dispatchOffers();
+        }).catch(console.error);
+    });
   }
 }

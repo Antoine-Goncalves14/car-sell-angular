@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     });
-    this.offersService.dispatchOffers();
+    this.offersService.getOffers();
   }
 
   initOfferForm(): void {

@@ -14,10 +14,18 @@ export class OffersService {
 
   constructor(
     private db: AngularFireDatabase,
-  ) { }
+  ) {}
 
-  getOffers() {
-
+  getOffers(): void {
+    this.db.list('offers').query.limitToLast(10).once('value', snapshot => {
+      const offersSnapshotValue = snapshot.val();
+      const offers = Object.keys(offersSnapshotValue).map(id => ({
+        id,
+        ...offersSnapshotValue[id]
+      }));
+      this.offers = offers;
+      this.dispatchOffers();
+    });
   }
 
   dispatchOffers() {

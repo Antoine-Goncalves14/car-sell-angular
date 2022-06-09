@@ -6,7 +6,7 @@ export const environment = {
     apiKey: 'AIzaSyDGuQuAYhBqP1UFjkCTBtXOKI2xwlFzRTo',
     authDomain: 'car-sell-1676e.firebaseapp.com',
     messagingSenderId: '808922340616',
-    databaseUrl: 'https://car-sell-1676e-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL: 'https://car-sell-1676e-default-rtdb.europe-west1.firebasedatabase.app/',
   },
   production: true
 };

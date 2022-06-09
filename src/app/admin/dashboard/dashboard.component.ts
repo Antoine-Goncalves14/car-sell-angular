@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   initOfferForm(): void {
     this.offerForm = this.formBuilder.group({
-      index: [0],
+      index: [null],
       title: ['', [Validators.required, Validators.maxLength(100)]],
       brand: ['', [Validators.required]],
       model: ['', [Validators.required]],
@@ -55,9 +55,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let offer = this.offerForm.value;
 
     if (offerIndex === null || offerIndex === undefined) {
+      // Creation
       delete offer.index;
-      this.offers = this.offersService.createOffer(offer);
+      this.offersService.createOffer(offer).catch(console.error);
     } else {
+      // Modification
       delete offer.index;
       this.offers = this.offersService.editOffer(offer, offerIndex);
     }

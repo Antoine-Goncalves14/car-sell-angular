@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const offerId = this.offerForm.value.id;
     let offer = this.offerForm.value;
 
-    if (offerId === null || offerId === undefined) {
+    if (!offerId || offerId && offerId === '') {
       // Creation
       delete offer.index;
       this.offersService.createOffer(offer).catch(console.error);
@@ -63,12 +63,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
       delete offer.index;
       this.offersService.editOffer(offer, offerId).catch(console.error);
     }
-
     this.offerForm.reset();
   }
 
   onEditOffer(offer: Offer): void {
-    this.offerForm.setValue(offer);
+    this.offerForm.setValue({
+      id: offer.id ? offer.id : '',
+      title: offer.title ? offer.title : '',
+      brand: offer.brand ? offer.brand : '',
+      model: offer.model ? offer.model : '',
+      description: offer.description ? offer.description : '',
+      price: offer.price ? offer.price : 0,
+    });
   }
 
   onDeleteOffer(index: number): void {

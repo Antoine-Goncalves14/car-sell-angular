@@ -17,6 +17,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   subscription!: Subscription;
 
+  currentOfferPhotoFile: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private offersService: OffersService,
@@ -43,6 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.offerForm = this.formBuilder.group({
       id: [null],
       title: ['', [Validators.required, Validators.maxLength(100)]],
+      photo: [],
       brand: ['', [Validators.required]],
       model: ['', [Validators.required]],
       description: '',
@@ -57,13 +60,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (!offerId || offerId && offerId === '') {
       // Creation
       delete offer.index;
-      this.offersService.createOffer(offer).catch(console.error);
+      this.offersService.createOffer(offer, this.currentOfferPhotoFile).catch(console.error);
     } else {
       // Modification
       delete offer.index;
       this.offersService.editOffer(offer, offerId).catch(console.error);
     }
     this.offerForm.reset();
+  }
+
+  onChangeOfferPhoto($event: any): void {
+    this.currentOfferPhotoFile = $event.target.files[0];
   }
 
   onEditOffer(offer: Offer): void {

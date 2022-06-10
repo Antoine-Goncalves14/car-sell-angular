@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Subject } from 'rxjs';
 import { Offer } from '../interfaces/offer';
 
@@ -14,6 +15,7 @@ export class OffersService {
 
   constructor(
     private db: AngularFireDatabase,
+    private storage: AngularFireStorage,
   ) {}
 
   getOffers(): void {
@@ -45,16 +47,20 @@ export class OffersService {
     this.offerSubject.next(this.offers);
   }
 
-  createOffer(offer: Offer): Promise<Offer> {
-    return new Promise((resolve, reject) => {
-      this.db.list('offers').push(offer).then(res => {
-        const createdOffer = { ...offer, id: String(res.key) };
-        this.offers.push(createdOffer);
-        this.dispatchOffers();
+  async createOffer(offer: Offer, offerPhoto?: any): Promise<Offer> {
+    try {
+      const photoUrl = offerPhoto ? await this.uploadPhoto(offerPhoto) : '';
 
-        resolve(createdOffer);
-      }).catch(reject);
-    })
+      const response = this.db.list('offers').push({...offer, photo: photoUrl});
+      const createdOffer = { ...offer, photo: photoUrl, id: String(response.key) };
+
+      this.offers.push(createdOffer);
+      this.dispatchOffers();
+
+      return createdOffer;
+    } catch (error) {
+      throw error
+    }
   }
 
   editOffer(offer: Offer, offerId: string): Promise<Offer> {
@@ -81,6 +87,15 @@ export class OffersService {
 
           this.dispatchOffers();
         }).catch(console.error);
+    });
+  }
+
+  private uploadPhoto(photo: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const upload = this.storage.upload('offers/' + Date.now() + '-' + photo.name, photo);
+      upload.then((res) => {
+        resolve(res.ref.getDownloadURL());
+      }).catch(reject);
     });
   }
 }

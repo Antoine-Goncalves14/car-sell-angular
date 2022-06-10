@@ -10,6 +10,10 @@
             <label for="offerTitleInput">Titre</label>
             <input type="text" id="offerTitleInput" class="form-control" formControlName="title">
           </div>
+          <div class="mb-3">
+            <label for="offerPhotoInput" class="form-label">Choisir une image</label>
+            <input type="file" id="offerPhotoInput" class="form-control" formControlName="photo" (change)="onChangeOfferPhoto($event)">
+          </div>
           <div class="form-group mb-3">
             <label for="offerBrandInput">Marque</label>
             <input type="text" id="offerBrandInput" class="form-control" formControlName="brand" appUppercaseInput>

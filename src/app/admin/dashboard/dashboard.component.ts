@@ -69,6 +69,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
     this.offerForm.reset();
     this.currentOfferPhotoFile = null;
+    this.currentOfferPhotoUrl = '';
   }
 
   onChangeOfferPhoto($event: any): void {

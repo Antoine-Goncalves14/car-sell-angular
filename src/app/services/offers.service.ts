@@ -78,16 +78,22 @@ export class OffersService {
     });
   }
 
-  deleteOffer(offerId: string): Promise<Offer[]> {
-    return new Promise((resolve, reject) => {
-      this.db.list('offers').remove(offerId)
-        .then(() => {
-          const offerToDeleteIndex = this.offers.findIndex(el => el.id === offerId);
-          this.offers.splice(offerToDeleteIndex, 1);
+  async deleteOffer(offerId: string): Promise<Offer> {
+    try {
+      const offerToDeleteIndex = this.offers.findIndex(el => el.id === offerId);
+      const offerToDelete = this.offers[offerToDeleteIndex];
 
-          this.dispatchOffers();
-        }).catch(console.error);
-    });
+      if (offerToDelete.photo && offerToDelete.photo !== '') {
+        await this.removePhoto(offerToDelete.photo);
+      }
+      await this.db.list('offers').remove(offerId);
+      this.offers.splice(offerToDeleteIndex, 1);
+      this.dispatchOffers();
+
+      return offerToDelete;
+    } catch (error) {
+      throw error;
+    }
   }
 
   private uploadPhoto(photo: any): Promise<string> {
@@ -96,6 +102,15 @@ export class OffersService {
       upload.then((res) => {
         resolve(res.ref.getDownloadURL());
       }).catch(reject);
+    });
+  }
+
+  private removePhoto(photoUrl: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.storage.refFromURL(photoUrl).delete().subscribe({
+        complete: () => resolve({}),
+        error: reject
+      });
     });
   }
 }

@@ -17,7 +17,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   subscription!: Subscription;
 
-  currentOfferPhotoFile: any;
+  currentOfferPhotoFile!: any;
+  currentOfferPhotoUrl!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,10 +68,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.offersService.editOffer(offer, offerId).catch(console.error);
     }
     this.offerForm.reset();
+    this.currentOfferPhotoFile = null;
   }
 
   onChangeOfferPhoto($event: any): void {
     this.currentOfferPhotoFile = $event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(this.currentOfferPhotoFile);
+    fileReader.onloadend = (e) => {
+      this.currentOfferPhotoUrl = String(e.target?.result);
+    }
   }
 
   onEditOffer(offer: Offer): void {

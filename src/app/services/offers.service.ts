@@ -63,19 +63,26 @@ export class OffersService {
     }
   }
 
-  editOffer(offer: Offer, offerId: string): Promise<Offer> {
-    return new Promise((resolve, reject) => {
-      this.db.list('offers').update(offerId, offer)
-        .then(() => {
-          const updatedOffer = { ...offer, id: offerId };
-          const offerToUpdateIndex = this.offers.findIndex(el => el.id === offerId);
-          this.offers[offerToUpdateIndex] = updatedOffer;
+  async editOffer(offer: Offer, offerId: string, newOfferPhoto?: any): Promise<Offer> {
+    try {
+      if (newOfferPhoto && offer.photo && offer.photo !== '') {
+        await this.removePhoto(offer.photo);
+      }
 
-          this.dispatchOffers();
+      if (newOfferPhoto) {
+        const newPhotoUrl = await this.uploadPhoto(newOfferPhoto);
+        offer.photo = newPhotoUrl;
+      }
 
-          resolve({ ...offer, id: offerId});
-        }).catch(reject);
-    });
+      await this.db.list('offers').update(offerId, offer);
+      const offerIndexToUpdate = this.offers.findIndex(el => el.id === offerId);
+      this.offers[offerIndexToUpdate] = { ...offer, id: offerId };
+      this.dispatchOffers();
+
+      return { ...offer, id: offerId };
+    } catch (error) {
+      throw error;
+    }
   }
 
   async deleteOffer(offerId: string): Promise<Offer> {

@@ -9,8 +9,29 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/home']">Accueil</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/admin', 'dashboard']">Tableau de bord</a>
+        <li *ngIf="!currentUser" class="nav-item">
+          <a class="nav-link" [routerLink]="['/auth', 'signin']">Connexion</a>
+        </li>
+        <li *ngIf="!currentUser" class="nav-item">
+          <a class="nav-link" [routerLink]="['/auth', 'signin']">Inscription</a>
+        </li>
+        <li *ngIf="currentUser" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Admin
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbar-dropdown">
+            <li>
+              <a [routerLink]="['/admin','dashboard']" class="dropdown-item">
+                Tableau de bord
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="dropdown-item text-danger">
+              Déconnexion
+            </li>
+          </ul>
         </li>
       </ul>
     </div>

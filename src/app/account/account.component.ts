@@ -28,6 +28,11 @@ export class AccountComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Exemple pour OUTPUT
+  // getMessageFromChildComponent(e: string) {
+  //  console.log('ACCOUNT', e);
+  // }
+
   ngOnDestroy(): void {
     this.currentUserSubscription.unsubscribe();
   }

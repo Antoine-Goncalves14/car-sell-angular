@@ -9,6 +9,7 @@ import { User } from 'src/app/interfaces/user';
 export class EditProfileComponent implements OnInit, OnChanges {
 
   @Input() currentUser!: User;
+  // @Output() messageEvent = new EventEmitter<string>();
 
   constructor() { }
 
@@ -19,4 +20,8 @@ export class EditProfileComponent implements OnInit, OnChanges {
     console.log(changes['currentUser'].currentValue);
   }
 
+  // Exemple pour OUTPUT
+  // onClick() {
+  //  this.messageEvent.emit('Hello world !');
+  // }
 }

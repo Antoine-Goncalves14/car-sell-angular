@@ -34,4 +34,13 @@ export class AuthService {
         }).catch(reject);
     });
   }
+
+  signOutUser(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.auth.signOut().then(() => {
+        this.currentUserSubject.next(null);
+        resolve();
+      }).catch(reject);
+    });
+  }
 }

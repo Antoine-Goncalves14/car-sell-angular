@@ -43,4 +43,11 @@ export class AuthService {
       }).catch(reject);
     });
   }
+
+  sendPasswordResetEmail(email: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.auth.sendPasswordResetEmail(email)
+        .then(resolve).catch(reject);
+    });
+  }
 }

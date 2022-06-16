@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/interfaces/user';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -14,14 +15,17 @@ export class EditProfileComponent implements OnInit, OnChanges {
   // @Output() messageEvent = new EventEmitter<string>();
 
   usernameForm!: FormGroup;
+  emailForm!: FormGroup;
 
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
     this.initUsernameForm();
+    this.initEmailForm();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -34,6 +38,13 @@ export class EditProfileComponent implements OnInit, OnChanges {
     });
   }
 
+  initEmailForm(): void {
+    this.emailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+    });
+  }
+
   onEditUsername(modal: any): void {
     this.usernameForm.get('username')?.setValue(this.currentUser.displayName);
     this.modalService.open(modal, { centered: true });
@@ -43,6 +54,22 @@ export class EditProfileComponent implements OnInit, OnChanges {
     this.currentUser.updateProfile({ displayName: this.usernameForm.value.username })
       .then(() => {
         this.modalService.dismissAll();
+      }).catch(console.error);
+  }
+
+  onEditEmail(modal: any): void {
+    this.emailForm.get('email')?.setValue(this.currentUser.email);
+    this.modalService.open(modal, { centered: true });
+  }
+
+  onSubmitEmailForm(): void {
+    this.authService.signInUser(String(this.currentUser.email), this.emailForm.value.password)
+      .then(() => {
+        this.currentUser.updateEmail(this.emailForm.value.email)
+          .then(() => {
+            this.modalService.dismissAll();
+            this.emailForm.reset();
+          }).catch(console.error);
       }).catch(console.error);
   }
 

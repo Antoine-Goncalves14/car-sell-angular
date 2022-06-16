@@ -18,4 +18,13 @@ export class AuthService {
         }).catch(reject);
     });
   }
+
+  signInUser(email: string, password: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.auth.signInWithEmailAndPassword(email, password)
+        .then(user => {
+          resolve(user);
+        }).catch(reject);
+    });
+  }
 }

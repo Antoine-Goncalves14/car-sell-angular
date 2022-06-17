@@ -1,10 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+// import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
+
+const redirectUnauthorizedToHome = () => redirectUnauthorizedTo(['home']);
 
 const routes: Routes = [
   {
     path: 'admin',
+    canActivate: [
+      AngularFireAuthGuard
+    ],
+    data: {
+      authGuardPipe: redirectUnauthorizedToHome
+    },
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
   },
   {
@@ -13,6 +23,12 @@ const routes: Routes = [
   },
   {
     path: 'account',
+    canActivate: [
+      AngularFireAuthGuard
+    ],
+    data: {
+      authGuardPipe: redirectUnauthorizedToHome
+    },
     loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
   },
   {

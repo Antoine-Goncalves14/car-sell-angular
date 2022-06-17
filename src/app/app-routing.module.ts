@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
   },
   {
+    path: 'offers',
+    loadChildren: () => import('./offers/offers.module').then(m => m.OffersModule),
+  },
+  {
     path: 'home',
     component: HomeComponent,
   },

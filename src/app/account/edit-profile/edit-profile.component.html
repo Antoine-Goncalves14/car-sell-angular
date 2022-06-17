@@ -45,7 +45,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" type="button" (click)="modal.dismiss()">Annuler</button>
-      <button class="btn btn-success" type="submit">Enregistrer</button>
+      <button class="btn btn-success" type="submit" [disabled]="usernameForm.invalid">Enregistrer</button>
     </div>
   </form>
 </ng-template>
@@ -68,7 +68,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" type="button" (click)="modal.dismiss()">Annuler</button>
-      <button class="btn btn-success" type="submit">Enregistrer</button>
+      <button class="btn btn-success" type="submit" [disabled]="usernameForm.invalid">Enregistrer</button>
     </div>
   </form>
 </ng-template>
